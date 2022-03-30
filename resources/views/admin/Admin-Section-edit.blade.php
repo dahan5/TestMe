@@ -54,7 +54,7 @@
             <a class="nav-link" href="{{route('results')}}">Results</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="{{route('dashboard')}}#students">Students</a>
+            <a class="nav-link" href="{{route('dashboard')}}#students">Candidates</a>
             </li>
             @can('superAdminGate')
             <li class="nav-item">

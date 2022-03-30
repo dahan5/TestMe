@@ -3,7 +3,7 @@
     <div>
         <v-tabs v-model="tab" :background-color="yellow" centered grow center-active>
             <v-tab>Subjects</v-tab>
-            <v-tab>Teachers</v-tab>
+            <v-tab>Examiners</v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tab">
@@ -53,7 +53,7 @@
             </v-tab-item>
             <v-tab-item class="text-center">
                 <v-btn tile class="m-3" small dark @click="teacherDialog = true">
-                    ADD NEW TEACHER
+                    ADD NEW EXAMINER
                 </v-btn>
 
                 <table class="table table-bordered w-100 text-center">
@@ -70,7 +70,7 @@
 
                 <v-dialog v-model="teacherDialog" max-width="700" :persistent="loading">
                     <v-card>
-                        <v-card-title class="headline">Add New Teacher</v-card-title>
+                        <v-card-title class="headline">Add New Examiner</v-card-title>
                         <v-container>
                             <v-text-field v-model="username" label="Username"></v-text-field>
                             <v-text-field v-model="password" type="password" label="Password"></v-text-field>

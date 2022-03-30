@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'TestMe'),
+    'name' => env('APP_NAME', 'Quiz'),
 
     /*
     |--------------------------------------------------------------------------
@@ -27,8 +27,8 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-    'schoolName' => env('SCHOOL_NAME', 'NEW SCHOOL'),
-    'schoolAlias' => env('SCHOOL_SHORT_NAME', 'NS'),
+    'schoolName' => env('SCHOOL_NAME', 'Trimetis'),
+    'schoolAlias' => env('SCHOOL_SHORT_NAME', '3M'),
     'log'=> 'errorlog',
 
     /*
@@ -216,7 +216,7 @@ return [
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade\PDF::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,

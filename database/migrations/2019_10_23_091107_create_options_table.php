@@ -14,8 +14,8 @@ class CreateOptionsTable extends Migration
     public function up()
     {
         Schema::create('options', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('question_id');
+            $table->uuid('id')->primary();
+            $table->uuid('question_id');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->longText('body');
             $table->boolean('isCorrect')->default(0);

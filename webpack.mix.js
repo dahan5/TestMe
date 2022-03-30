@@ -1,4 +1,13 @@
 const mix = require('laravel-mix');
+mix.webpackConfig({
+   resolve: {
+     alias: {
+       'vue$': 'vue/dist/vue.common.js' 
+ 
+     }
+   }
+ })
+ 
 
 /*
  |--------------------------------------------------------------------------
@@ -12,4 +21,5 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+   .vue()
    .sass('resources/sass/app.scss', 'public/css');

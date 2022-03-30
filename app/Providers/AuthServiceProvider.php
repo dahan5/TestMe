@@ -1,8 +1,9 @@
 <?php
-use App\Admin;
- use App\Role;
+
 namespace App\Providers;
 use Auth;
+use App\Admin;
+use App\Role;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;

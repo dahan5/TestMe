@@ -14,10 +14,10 @@ class CreateAdminSubjectTable extends Migration
     public function up()
     {
         Schema::create('admin_subject', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('admin_id');
+            $table->uuid('id')->primary();
+            $table->uuid('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins');
-            $table->integer('subject_id')->unsigned();
+            $table->uuid('subject_id');
             $table->foreign('subject_id')->references('id')->on('subjects');
         });
     }

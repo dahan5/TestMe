@@ -9,17 +9,23 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mx-auto col-md-8">
+        <ul class="navbar-nav mx-auto col-md-10">
             <li class="nav-item">
-                <a class="nav-link {{ (\Request::route()->getName() == 'dashboard') ? 'active' : '' }}" href="{{route('dashboard')}}">Main Dashboard</a>
+                <a class="nav-link {{ (\Request::route()->getName() == 'dashboard') ? 'active' : '' }}" href="{{route('dashboard')}}">Dashboard</a>
             </li>
 
             @can('superAdminGate')
                 <li class="nav-item">
-                    <a class="nav-link {{ (\Request::route()->getName() == 'students') ? 'active' : '' }}" href="{{route('students')}}">Students</a>
+                    <a class="nav-link {{ (\Request::route()->getName() == 'scores') ? 'active' : '' }}" href="{{route('scores')}}">Scores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (\Request::route()->getName() == 'teachers') ? 'active' : '' }}" href="{{route('teachers')}}">Teachers</a>
+                    <a class="nav-link {{ (\Request::route()->getName() == 'exams') ? 'active' : '' }}" href="{{route('exams')}}">Exams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (\Request::route()->getName() == 'students') ? 'active' : '' }}" href="{{route('students')}}">Candidates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (\Request::route()->getName() == 'teachers') ? 'active' : '' }}" href="{{route('teachers')}}">Examiners</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (\Request::route()->getName() == 'subjects') ? 'active' : '' }}" href="{{route('subjects')}}">Subjects</a>

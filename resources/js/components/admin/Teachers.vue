@@ -5,7 +5,7 @@
         <v-icon>
             mdi-plus
         </v-icon>
-        ADD NEW TEACHER
+        ADD NEW EXAMINER
     </v-btn>
 
     <table class="table table-md table-bordered w-100 text-center">
@@ -22,7 +22,7 @@
 
     <v-dialog v-model="createDialog" max-width="600" :persistent="loading">
         <v-card>
-            <v-card-title class="headline">Add New Teacher</v-card-title>
+            <v-card-title class="headline">Add New Examiner</v-card-title>
             <v-container>
                 <v-text-field class="mt-3" v-model="username" label="Username" placeholder="Type username here..." hint="Usernames can be a combination of the person's names or subjects e.g adekunle.ciroma, oyewo.physics" persistent-hint></v-text-field>
                 <v-text-field class="mt-3" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" :type="showPass ? 'text' : 'password'" v-model="password" label="Password" placeholder="Enter preferred user password" hint="Password can be changed later after the user logs in" persistent-hint @click:append="showPass = !showPass"></v-text-field>

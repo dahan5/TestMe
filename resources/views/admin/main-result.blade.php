@@ -12,7 +12,7 @@
             <div class="col-md-8">
             EXAM DATE: <strong>{{$selected_exam ? Carbon\Carbon::parse($selected_exam->date)->format('l, jS \o\f F Y') : (count($exams) > 0 ? Carbon\Carbon::parse($exams[0]->date)->format('l, jS \o\f F Y') . " (Most Recent)" : "NIL")}}</strong>
             </div>
-        <all-results :exams="{{$exams}}" :selected_exam="{{json_encode($selected_exam)}}" :iscurrentexam="{{json_encode(!$selected_exam)}}" :subject="{{$subject}}" :class-id="{{$current_class->id}}"></all-results>
+        <all-results :exams="{{$exams}}" :selected_exam="{{json_encode($selected_exam)}}" :iscurrentexam="{{json_encode(!$selected_exam)}}" :subject="{{$subject}}" :class-id="'{{$current_class->id}}'"></all-results>
         </div>
 
         <table class="table table-sm mt-2 table-bordered text-center">

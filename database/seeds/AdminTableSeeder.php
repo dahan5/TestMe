@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
 
 class AdminTableSeeder extends Seeder
 {
@@ -11,10 +13,16 @@ class AdminTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('admins')->insert([
-            'username' => 'admin',
-            'password' => bcrypt('admin'),
-            'role_id' => 1
-        ]);
+        $adminArray = array(['username' => 'taleb.dahan@feqra.com', 'password' => bcrypt('Urfoz4p6$#@!')]
+        , ['username' => 'christoph.drescher@trimetis.com', 'password' => bcrypt('12345678')]);
+
+        foreach ($adminArray as $admin) {
+            DB::table('admins')->insert([
+                'id' => Uuid::uuid4(),
+                'username' => $admin['username'],
+                'password' => $admin['password'],
+                'role_id' => '1'
+            ]);
+        }
     }
 }

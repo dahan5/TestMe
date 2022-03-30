@@ -89,10 +89,10 @@
             </div>
         </nav>
 
-        <div>
+        <div style="user-select: none;">
             {{-- made it class-id(kebab-case) because HTML converts it to lowercase automatically --}}
             <v-app>
-                <Questions :questions="{{$questions}}" :hours="{{$hours}}" :minutes="{{$minutes}}" :mainsubject="{{$subject}}" :subject="{{$subject->id}}" :class-id="{{$user->class_id}}"></Questions>
+                <Questions :questions="{{$questions}}" :hours="{{$hours}}" :minutes="{{$minutes}}" :mainsubject="{{$subject}}" :subject="'{{$subject->id}}'" :class-id="'{{$user->class_id}}'"></Questions>
             </v-app>
         </div>
     </div>

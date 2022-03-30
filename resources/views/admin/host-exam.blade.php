@@ -152,14 +152,14 @@
 
     <h1 class="cover-heading">{{$subject->subject_name}} Exam</h1><br>
     <p class="lead">Instructions</p>
-  <p class="lead">All students can now access the exam page via <strong style="color:orange">{{route('exam',['subject'=>$subject->alias])}}</strong>. Click the "End Exam" button after the exam is fully over to disable student access.</p>
+  <p class="lead">All candidates can now access the exam page via <strong style="color:orange">{{route('exam',['subject'=>$subject->alias])}}</strong>. Click the "End Exam" button after the exam is fully over to disable student access.</p>
     <p class="lead">Exam Duration</p>
     @foreach ($marks as $mark)
   <h1 class="cover-heading">JSS{{$mark->class_id}} 0{{$mark->hours}}:{{($mark->minutes == 0)?"00":$mark->minutes}}:00</h1><br>
     @endforeach
 
     <p class="lead">
-    <a href="{{route('end-exam', ['subject'=>$subject->alias])}}" class="btn btn-lg btn-secondary" onclick="return confirm('Are you sure you want to end this examination for all students thereby disabling any form of student access?')">End Exam</a>
+    <a href="{{route('end-exam', ['subject'=>$subject->alias])}}" class="btn btn-lg btn-secondary" onclick="return confirm('Are you sure you want to end this examination for all candidates thereby disabling any form of student access?')">End Exam</a>
     </p>
   </main>
 

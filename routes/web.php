@@ -103,6 +103,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/{subject}/{class_id}/questions', 'AdminController@getAllQuestions')->name('questions');
     Route::get('/{subject}/{class_id}/results', 'AdminController@getSingleResult')->name('results');
     Route::get('/{subject}/{class_id}/results/download/{exam_id}', 'AdminController@downloadResult')->name('download-result');
+    Route::get('/exams', 'AdminController@getAllExams')->name('exams');
+    Route::get('/scores', 'AdminController@getAllStudentsWithScores')->name('scores');
+    Route::get('/results', 'AdminController@getResults')->name('results');
+    Route::get('/{class_id}/results', 'AdminController@getResultsPerClass')->name('class-result');
 
 });
 

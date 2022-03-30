@@ -15,7 +15,8 @@ class Classes extends Migration
     {
         //
         Schema::create('classes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
+            $table->smallInteger('display_order')->unsigned();
             $table->string('class');
         });
     }

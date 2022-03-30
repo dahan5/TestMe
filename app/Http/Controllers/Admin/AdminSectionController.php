@@ -27,11 +27,11 @@ class AdminSectionController extends Controller
     public function teachersPage() {
 
         $subjects = Subject::with('classes')->get();
-        $teachers = Admin::where('role_id', 2)->orderBy('username')->with(['subjects' => function ($q) {
+        $teachers = Admin::where('role_id', '2')->orderBy('username')->with(['subjects' => function ($q) {
             $q->with('classes','subject');
         }])->get();
 
-        $classes = Classes::all();
+        $classes = Classes::orderBy('display_order', 'asc')->get();
         $type = 'teachers';
 
         return view('admin.teacher-subject', compact('classes','type','subjects','teachers'));
@@ -42,7 +42,7 @@ class AdminSectionController extends Controller
 
         $subjects = Subject::with('classes')->orderBy('subject_name')->get();
 
-        $classes = Classes::all();
+        $classes = Classes::orderBy('display_order', 'asc')->get();
         $type = 'subjects';
 
         return view('admin.teacher-subject', compact('classes','type','subjects'));
@@ -112,7 +112,7 @@ class AdminSectionController extends Controller
         $admin->username = $request->username;
         $admin->password = $request->password;
         $admin->subject_id = null;
-        $admin->role_id = 1;
+        $admin->role_id = '1';
 
         $admin->save();
 
@@ -143,7 +143,7 @@ class AdminSectionController extends Controller
     }
 
     public function getAllTeachers() {
-        $teachers = Admin::where('role_id',2)->get();
+        $teachers = Admin::where('role_id', '2')->get();
 
         return compact('teachers');
     }
@@ -160,7 +160,7 @@ class AdminSectionController extends Controller
         $teacher = new Admin;
         $teacher->username = $request->username;
         $teacher->password = bcrypt($request->password);
-        $teacher->role_id = 2; //teacher's role_id
+        $teacher->role_id = '2'; //teacher's role_id
 
         $teacher->save();
 

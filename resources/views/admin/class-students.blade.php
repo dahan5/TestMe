@@ -1,6 +1,6 @@
 @extends('layouts.main')
-@section('title', 'All Students')
-@section('pageHeader', 'All Students')
+@section('title', 'All Candidates')
+@section('pageHeader', 'All Candidates')
 @section('content')
 
     <div class="container" id="app" data-app="true">

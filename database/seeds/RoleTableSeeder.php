@@ -13,11 +13,12 @@ class RoleTableSeeder extends Seeder
     public function run()
     {
         //
-        $roleArray = ['superadmin', 'admin'];
+        $roleArray = array(['id'=>'1','role'=>'superadmin'],['id'=>'2','role'=>'admin']);
 
         foreach ($roleArray as $role) {
             DB::table('roles')->insert([
-                'role' => $role
+                'id' => $role['id'],
+                'role' => $role['role']
             ]);
         }
     }

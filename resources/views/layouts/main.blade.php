@@ -67,6 +67,20 @@
           font-weight: bold;
         }
 
+        th.rotated-text {
+          height: 510px;
+          white-space: nowrap;
+          padding: 0 !important;
+        }
+
+        th.rotated-text > div {
+          transform: translate(13px, 0px) rotate(270deg);
+          width: 30px;
+        }
+
+        th.rotated-text > div > span {
+          padding: 5px 10px;
+        }
     </style>
   </head>
 
@@ -74,7 +88,7 @@
     @if (\Request::route()->getName() !== 'questions' && \Request::route()->getName() !== 'results')
         @include('partials.nav')
 
-        <div class="container">
+        <div class="container-fluid">
 
                 <h3 class="text-center mt-5">
                     @yield('pageHeader')

@@ -5,6 +5,7 @@ use Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class Admin extends Authenticatable
 {
@@ -16,7 +17,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'password','role_id','subject_id '
+        'username', 'password', 'role_id', 'subject_id'
     ];
 
     /**
@@ -53,7 +54,31 @@ class Admin extends Authenticatable
 
     // i link this with gate
     public function isSuperAdmin() {
-        return $this->role_id === 1;
+        return $this->role_id === '1';
+    }
+
+    /**
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * @var string
+     */
+    public $keyType = 'string';
+
+    /**
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (! $model->getKey()) {
+                $model->id = Str::uuid()->toString();
+            }
+        });
     }
 }
 

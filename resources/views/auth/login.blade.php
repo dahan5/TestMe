@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{{asset('/img/logo.png')}}">
 
-    <title>{{config('app.name')}} | {{config('app.schoolAlias')}} - Student Login</title>
+    <title>{{config('app.name')}} | {{config('app.schoolAlias')}} - Candidate Login</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -73,7 +73,7 @@
   <body class="text-center">
     <form class="form-signin" autocomplete="off" method="POST" action="{{ route('login') }}">
 
-            <h1>Student Login</h1>
+            <h1>Candidate Login</h1>
             @csrf
 
             @if ($errors->any())

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
 
 class SubjectsTableSeeder extends Seeder
 {
@@ -12,10 +14,27 @@ class SubjectsTableSeeder extends Seeder
     public function run()
     {
         //Seeder to input every subject into the db
-        $subjects = array(['alias'=>'english','subject_name'=>'English Language'],['alias'=>'mathematics','subject_name'=>'Mathematics'],['alias'=>'rnv','subject_name'=>'Religion and National Values'],['alias'=>'french','subject_name'=>'French'],['alias'=>'ict','subject_name'=>'Information and Communication Technology'],['alias'=>'physics','subject_name'=>'Physics'],['alias'=>'chemistry','subject_name'=>'Chemistry'],['alias'=>'biology','subject_name'=>'Biology'],['alias'=>'basic_science','subject_name'=>'Basic Science'],['alias'=>'basic_tech','subject_name'=>'Basic Technology'],['alias'=>'cca','subject_name'=>'Cultural and Creative Arts'],['alias'=>'music','subject_name'=>'Music'],['alias'=>'phonics','subject_name'=>'Phonics'],['alias'=>'yoruba','subject_name'=>'Yoruba']);
+        $subjects = array(
+            ['alias'=>'back','subject_name'=>'Back-End'],
+            ['alias'=>'bigdata','subject_name'=>'Big-Data'],
+            ['alias'=>'cloud','subject_name'=>'Cloud'],
+            ['alias'=>'cryptography','subject_name'=>'Cryptography'],
+            ['alias'=>'datascience','subject_name'=>'Data Science'],
+            ['alias'=>'db','subject_name'=>'Database'],
+            ['alias'=>'devops','subject_name'=>'DevOps'],
+            ['alias'=>'front','subject_name'=>'Front-End'],
+            ['alias'=>'fullstack','subject_name'=>'Full-Stack'],
+            ['alias'=>'hr','subject_name'=>'HR'],
+            ['alias'=>'marketing','subject_name'=>'Marketing'],
+            ['alias'=>'mgmt','subject_name'=>'Management'],
+            ['alias'=>'mobile','subject_name'=>'Mobile'],
+            ['alias'=>'qa','subject_name'=>'QA'],
+            ['alias'=>'saas','subject_name'=>'SAAS']
+        );
 
         foreach ($subjects as $subject) {
             DB::table('subjects')->insert([
+                'id' => Uuid::uuid4(),
                 'alias' => $subject['alias'],
                 'subject_name' => $subject['subject_name'],
             ]);

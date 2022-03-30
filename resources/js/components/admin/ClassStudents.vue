@@ -12,7 +12,7 @@
                     <v-icon>
                         mdi-plus
                     </v-icon>
-                    ADD STUDENTS
+                    ADD CANDIDATES
                 </v-btn>
                 <table class="table table-bordered w-100 text-center">
                     <thead>
@@ -34,9 +34,9 @@
                         <v-window v-model="step">
                             <v-window-item :value="1">
                                 <v-card-text class="justify-content-center p-4">
-                                     <v-btn outlined :color="yellow" text @click="step = 2">ADD SINGLE STUDENT</v-btn>
+                                     <v-btn outlined :color="yellow" text @click="step = 2">ADD SINGLE CANDIDATE</v-btn>
                                      <v-divider></v-divider>
-                                    <v-btn outlined :color="yellow" text @click="step = 3">UPLOAD STUDENT LIST</v-btn>
+                                    <v-btn outlined :color="yellow" text @click="step = 3">UPLOAD CANDIDATE LIST</v-btn>
                                 </v-card-text>
                                 <v-card-actions class="justify-center">
                                     <v-spacer></v-spacer>
@@ -52,7 +52,7 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn :disabled="loading" color="green darken-1" text @click="lastname = firstname = null; resetWindowAndClose()">CLOSE</v-btn>
-                                    <v-btn :loading="loading" :disabled="loading || !lastname || !firstname" color="green darken-1" text @click="addStudent(section.id)">ADD STUDENT</v-btn>
+                                    <v-btn :loading="loading" :disabled="loading || !lastname || !firstname" color="green darken-1" text @click="addStudent(section.id)">ADD CANDIDATE</v-btn>
                                 </v-card-actions>
                             </v-window-item>
 
@@ -136,7 +136,7 @@ export default {
                 this.loading = false;
                 this.dialog = false;
                 console.log(err.response.data)
-                alert("Sorry, there was an error adding this student")
+                alert("Sorry, there was an error adding this candidate")
             })
         },
         addMultipleStudents(classId) {
@@ -174,7 +174,7 @@ export default {
         deleteStudent(student) {
             this.classes.find(single => single.id == student.class_id).students = this.classes.find(single => single.id == student.class_id).students.filter(theStudent => theStudent.id !== student.id)
             this.snackbar = true;
-            this.snackbarText = "Student deleted successfully"
+            this.snackbarText = "Candidate deleted successfully"
         },
         resetWindowAndClose() {
             this.step = 1;
@@ -185,9 +185,9 @@ export default {
     computed: {
       addStudentModalTitle () {
         switch (this.step) {
-          case 1: return 'Add Students'
-          case 2: return 'Add Single Student'
-          case 3: return 'Upload Student List'
+          case 1: return 'Add Candidates'
+          case 2: return 'Add Single Candidate'
+          case 3: return 'Upload Candidate List'
         }
       },
     },

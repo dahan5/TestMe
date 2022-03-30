@@ -14,7 +14,7 @@ class EditAdminsTable extends Migration
     public function up()
     {
         Schema::table('admins', function (Blueprint $table) {
-            $table->integer('role_id')->unsigned()->default(2);
+            $table->uuid('role_id')->default('2');
             $table->foreign('role_id')->references('id')->on('roles');
         });
     }

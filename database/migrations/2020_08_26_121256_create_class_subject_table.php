@@ -14,10 +14,10 @@ class CreateClassSubjectTable extends Migration
     public function up()
     {
         Schema::create('class_subject', function (Blueprint $table) {
-            $table->id();
-            $table->integer('class_id')->unsigned();
+            $table->uuid('id')->primary();
+            $table->uuid('class_id');
             $table->foreign('class_id')->references('id')->on('classes');
-            $table->integer('subject_id')->unsigned();
+            $table->uuid('subject_id');
             $table->foreign('subject_id')->references('id')->on('subjects');
         });
     }

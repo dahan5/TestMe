@@ -3,6 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use App\Traits\UuidTrait;
 
 class AdminSubject extends Model
 {
@@ -21,7 +24,10 @@ class AdminSubject extends Model
     }
 
     public function classes() {
-        return $this->belongsToMany(Classes::class, 'adminsubject_class', 'adminsubject_id', 'class_id');
+        return $this->belongsToMany(Classes::class, 'adminsubject_class', 'adminsubject_id', 'class_id')
+        ->using(new class extends Pivot {
+            use UuidTrait;
+        });
     }
 
     public function getSubjectNameAttribute() {
@@ -30,5 +36,29 @@ class AdminSubject extends Model
 
     public function getAliasAttribute() {
         return $this->subject->alias;
+    }
+
+    /**
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * @var string
+     */
+    public $keyType = 'string';
+
+    /**
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (! $model->getKey()) {
+                $model->id = Str::uuid()->toString();
+            }
+        });
     }
 }

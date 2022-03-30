@@ -39,14 +39,16 @@ class AdminController extends Controller
 
         if (Gate::denies('superAdminGate')){
             //Only return the subject of that user
-            $subjects = Auth::user()->subjects()->with('classes','subject')->get();
-            $classes = Classes::get();
+            // $subjects = Auth::user()->subjects()->with('classes','subject')->get();
+            $admin = Admin::find(Auth::id());
+            $subjects = $admin->subjects()->with('classes','subject')->get();
+            $classes = Classes::orderBy('display_order', 'asc')->get();
             $all_started = Exam::whereIn('subject_id', Arr::pluck($subjects, 'subject_id'))->where('hasStarted', 1)->get();
         }
 
         else {
             $subjects = Subject::orderBy('subject_name')->get();
-            $classes = Classes::get();
+            $classes = Classes::orderBy('display_order', 'asc')->get();
             //get all started exams
             $all_started = Exam::where('hasStarted', 1)->get();
         }
@@ -68,8 +70,32 @@ class AdminController extends Controller
         return view('admin.dashboard',compact('subjects','classes', 'exams'));
     }
 
+    public function getAllExams() {
+        $classes = Classes::orderBy('display_order', 'asc')->with(['subjects' => function ($q) {
+            $q->with('classes')->orderBy('subject_name');
+          }])->get();
+        foreach ($classes as $clazz) {
+            foreach ($clazz->subjects as $subject) {
+                foreach ($subject->classes as $class) {
+                    $class->hasPendingExamToday = $class->hasPendingExamToday($subject->subject_id);
+                }
+            }
+        }
+
+        $exams = [];
+        $all_started = Exam::where('hasStarted', 1)->get();
+        if (count($all_started) > 0) {
+            foreach ($all_started as $exam) {
+                array_push($exams, ['id' => $exam->id, 'subject' => $exam->subject, 'class' => $exam->class]);
+            }
+        }
+        $exams = json_encode($exams);
+
+        return view('admin.class-exams', compact('classes', 'exams'));
+    }
+
     public function getAllStudents() {
-        $classes = Classes::with(['students' => function ($q) {
+        $classes = Classes::orderBy('display_order', 'asc')->with(['students' => function ($q) {
             $q->withTrashed()->orderBy('lastname');
           }])->get();
 
@@ -114,8 +140,9 @@ class AdminController extends Controller
     }
 
     protected function generateStudentCode($class_id) {
-        $characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-        $code = mt_rand(2111, 9999) . $characters[rand(0, strlen($characters) - 1)] . $characters[rand(0, strlen($characters) - 1)];
+        //$characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        //$code = mt_rand(2111, 9999) . $characters[rand(0, strlen($characters) - 1)] . $characters[rand(0, strlen($characters) - 1)];
+        $code = mt_rand(2111, 9999);
 
         $check = User::where('class_id',$class_id)->where('code', $code)->first();
 
@@ -177,7 +204,9 @@ class AdminController extends Controller
         if (Gate::allows('view-subject-details', [$subject->id, $class_id])) {
             //Get the exam with the latest date, that is the current exam.
             $exams = Exam::where('subject_id',$subject->id)->where('class_id',$class_id)->orderBy('date','desc')->orderBy('updated_at','desc')->with('subject','class')->get();
-            $classes = Auth::user()->isSuperAdmin() ? $subject->classes : $subject->adminSubjects()->where('admin_id', Auth::id())->first()->classes;
+            //$classes = Auth::user()->isSuperAdmin() ? $subject->classes : $subject->adminSubjects()->where('admin_id', Auth::id())->first()->classes;
+            $admin = Admin::find(Auth::id());
+            $classes = $admin->isSuperAdmin() ? $subject->classes : $subject->adminSubjects()->where('admin_id', Auth::id())->first()->classes;
 
             if (count($exams) > 0) {
                 Session::put('exam_id', $exams[0]->id);
@@ -375,18 +404,86 @@ class AdminController extends Controller
     }
 
     public function getResults() {
-        $classes = Classes::get();
+        $classes = Classes::orderBy('display_order', 'asc')->get();
 
         if(Gate::denies('superAdminGate')){
             //Only return the subject of that user
             $subjects = Subject::where('id', Auth::user()->subject_id)->get();
-        }
-
-        else {
-            $subjects = Subject::all();
+        } else {
+            $subjects = Subject::orderBy('alias', 'asc')->get();
         }
 
         return view('admin.results',compact('subjects','classes'));
+    }
+
+    public function getAllStudentsWithScores(Request $request) {
+        $classes = Classes::orderBy('display_order', 'asc')->with(['students' => function ($q) {
+            $q->withTrashed()->orderBy('lastname');
+          }])->get();
+        
+        foreach ($classes as $current_class) {
+            $subject_list = $current_class->subjects()->get();
+            foreach ($current_class->students as $student) {
+                $list = [];
+                $candidateTotal = 0;
+                foreach ($subject_list as $key => $subject) {
+                    $exams = $current_class->getAllExams($subject->id);
+                    $selected_exam = null;
+                    if ($request->date && $request->id) {
+                        $selected_exam = Exam::where('id', $request->id)->where('subject_id',$subject->id)->where('class_id',$current_class->id)->where('date', $request->date)->has('scores')->first();
+                    }
+                    if (!empty($subject->alias)) {
+                        $list[$subject->alias] = count($exams) > 0 ? $student->getScore($selected_exam ? $selected_exam->id : $exams[0]->id) : null;
+                        if ($list[$subject->alias] !== null) {
+                            $candidateTotal += $list[$subject->alias]['actual_score'];
+                        }
+                    }
+                }
+                $list['TOTAL'] = ['actual_score' => $candidateTotal, 'computed_score' => $candidateTotal];
+                $student->subjects = $list;
+            }
+            $subjects = [];
+            $total = 0;
+            foreach ($subject_list as $subject) {
+                $exams = $current_class->getAllExams($subject->id);
+                $base_score = 0;
+                if (count($exams) > 0) {
+                    $base_score = $exams[0]->base_score;
+                }
+                $total += $base_score;
+                array_push($subjects, ['subject_name' => $subject->subject_name, 'alias' => $subject->alias, 'base_score' => $base_score]);
+            }
+            array_push($subjects, ['subject_name' => 'TOTAL', 'alias' => 'TOTAL', 'base_score' => $total]);
+            $current_class->subjects = $subjects;
+            $collection = collect($current_class->students);
+            $sorted = $collection->SortByDesc('subjects.TOTAL.actual_score');
+            $current_class->students_sorted = $sorted->values()->all();
+        }
+        return view('admin.class-scores', compact('classes'));
+    }
+
+    public function getResultsPerClass(Request $request,$class_id) {
+        $current_class = Classes::where('id', $class_id)->firstOrFail();
+        $students = User::where('class_id',$class_id)->orderBy('lastname')->get();
+        $subject_list = $current_class->subjects()->get();
+        foreach ($students as $student) {
+            $list = [];
+            foreach ($subject_list as $key => $subject) {
+                $exams = $current_class->getAllExams($subject->id);
+                $selected_exam = null;
+                if ($request->date && $request->id) {
+                    $selected_exam = Exam::where('id', $request->id)->where('subject_id',$subject->id)->where('class_id',$class_id)->where('date', $request->date)->has('scores')->first();
+                }
+                $list[$subject->alias] = count($exams) > 0 ? $student->getScore($selected_exam ? $selected_exam->id : $exams[0]->id) : null;
+            }
+            $student->subjects = $list;
+        }
+        $subjects = [];
+        foreach ($subject_list as $key => $subject) {
+            $exams = $current_class->getAllExams($subject->id);
+            array_push($subjects, ['subject_name' => $subject->subject_name, 'alias' => $subject->alias, 'base_score' => $exams[0]->base_score]);
+        }
+        return view('admin.class-result',compact('students','subjects','current_class'));
     }
 
     public function getSingleResult(Request $request,$subject,$class_id) {
@@ -407,7 +504,9 @@ class AdminController extends Controller
                 $student->score = count($exams) > 0 ? $student->getScore($selected_exam ? $selected_exam->id : $exams[0]->id) : null;
             }
 
-            $classes = Auth::user()->isSuperAdmin() ? $subject->classes : $subject->adminSubjects()->where('admin_id', Auth::id())->first()->classes;
+            //$classes = Auth::user()->isSuperAdmin() ? $subject->classes : $subject->adminSubjects()->where('admin_id', Auth::id())->first()->classes;
+            $admin = Admin::find(Auth::id());
+            $classes = $admin->isSuperAdmin() ? $subject->classes : $subject->adminSubjects()->where('admin_id', Auth::id())->first()->classes;
 
             return view('admin.main-result',compact('students','subject','current_class','classes','exams','selected_exam'));
         }

@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use App\Traits\UuidTrait;
 
 class Subject extends Model
 {
@@ -19,7 +22,10 @@ class Subject extends Model
     }
 
     public function classes() {
-        return $this->belongsToMany(Classes::class, 'class_subject', 'subject_id', 'class_id');
+        return $this->belongsToMany(Classes::class, 'class_subject', 'subject_id', 'class_id')
+        ->using(new class extends Pivot {
+            use UuidTrait;
+        });
     }
 
     public function adminClasses() {
@@ -44,6 +50,30 @@ class Subject extends Model
         $exam = Exam::where('subject_id',$this->id)->where('class_id',$class_id)->where('hasStarted', 1)->orderBy('date', 'desc')->orderBy('updated_at','desc')->first();
 
         return $exam ? $exam : null;
+    }
+
+    /**
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * @var string
+     */
+    public $keyType = 'string';
+
+    /**
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (! $model->getKey()) {
+                $model->id = Str::uuid()->toString();
+            }
+        });
     }
 }
 

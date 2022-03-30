@@ -1,11 +1,13 @@
-{{-- This is the view for the admin main page. It contains the list of all subjects with links to host exam, add questions, view results, it also has a navbar with links to the students page --}}
 @extends('layouts.main')
-@section('title', 'Main Dashboard')
-@section('pageHeader', 'Main Dashboard')
+@section('title', 'Dashboard')
+@section('pageHeader', 'Dashboard')
 @section('content')
 @can('superAdminGate')
+    <div class="container" id="app" data-app="true">
+        <class-classes :allclasses="{{$classes}}" :isadmin="{{json_encode(auth()->user()->can('superAdminGate'))}}"></class-classes>
+    </div>
     <main role="main">
-        <h4>Students</h4>
+        <h4>Candidates</h4>
         <hr>
         <div class="card-deck">
 
@@ -14,13 +16,14 @@
                     <div class="card-body">
                     <a href="/admin/students#{{strtolower($class->class)}}" class="text-dark">
                             <h5 class="card-title">{{strtoupper($class->class)}}</h5>
-                            <p class="card-text">{{$class->students()->withTrashed()->count()}} Students</p>
+                            <p class="card-text">{{$class->students()->withTrashed()->count()}} Candidates</p>
                         </a>
                     </div>
 
                 </div>
             @endforeach
 
+            <class-students :allclasses="{{$classes}}" :isadmin="{{json_encode(auth()->user()->can('superAdminGate'))}}"></class-students>
         </div>
     </main>
     <hr>

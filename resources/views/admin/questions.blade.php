@@ -4,7 +4,7 @@
 
     <div id="app">
         <v-app>
-            <add-question :subject="{{$subject->id}}" :class-id="{{$class_id}}" :exams="{{$exams}}"></add-question>
+            <add-question :subject="'{{$subject->id}}'" :class-id="'{{$class_id}}'" :exams="{{$exams}}"></add-question>
         </v-app>
     </div>
 

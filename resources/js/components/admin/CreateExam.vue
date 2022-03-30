@@ -30,7 +30,7 @@
                       <v-date-picker :color="yellow" :min="today"  v-model="date" no-title @input="dateMenu = false"></v-date-picker>
                     </v-menu>
 
-                    <v-text-field type="number" v-model="totalMarks" persistent-hint label="Aggregate Score" hint="Note: student scores will be calculated using this as a base value">
+                    <v-text-field type="number" v-model="totalMarks" persistent-hint label="Aggregate Score" hint="Note: candidate scores will be calculated using this as a base value">
 
                     </v-text-field>
                 </v-container>

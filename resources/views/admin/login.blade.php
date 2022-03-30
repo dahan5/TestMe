@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{{asset('/img/logo.png')}}">
 
-    <title>{{config('app.name')}} | {{config('app.schoolAlias')}} - Teacher Login</title>
+    <title>{{config('app.name')}} | {{config('app.schoolAlias')}} - Examiner Login</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -106,7 +106,7 @@
 
     <form class="form-signin mt-5" autocomplete="off" action="{{route('admin-login')}}" method="post">
 
-      <h1 class="h3 mb-3 font-weight-normal mt-5">Teacher Login</h1>
+      <h1 class="h3 mb-3 font-weight-normal mt-5">Examiner Login</h1>
 
       <hr>
 

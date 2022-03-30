@@ -170,7 +170,7 @@
                     @auth
                         <a href="{{ url('/home') }}" class="btn btn-lg loginBtn">Home</a>
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-lg loginBtn">Student Login</a>
+                        <a href="{{ route('login') }}" class="btn btn-lg loginBtn">Candidate Login</a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="btn btn-lg btn-secondary">Register</a>
