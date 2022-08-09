@@ -26,7 +26,7 @@
                     </tbody>
                 </table>
 
-                <v-dialog v-model="dialog" max-width="500" persistent="false">
+                <v-dialog v-model="dialog" max-width="500" persistent>
                     <v-card class="mx-auto" max-width="500">
                         <v-card-title class="title font-weight-regular justify-space-between">
                             <span>{{section.class}} {{ addStudentModalTitle }}</span>

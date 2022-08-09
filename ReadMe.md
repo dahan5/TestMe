@@ -19,6 +19,10 @@ Install all the dependencies using composer
 
     composer install
 
+If you are running PHP 8, please execute
+
+    composer require "ext-gd:*" --ignore-platform-reqs
+
 Install frontend dependencies using npm
 
     npm install

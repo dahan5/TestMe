@@ -8,22 +8,24 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2",
-        "barryvdh/laravel-dompdf": "^1.0.0",
-        "doctrine/dbal": "^3.3.3",
-        "fideloper/proxy": "^4.4.1",
-        "laravel/framework": "^7.30.6",
-        "laravel/tinker": "^2.7.0",
-        "laravel/ui": "^2.5.0",
-        "maatwebsite/excel": "^3.1.37"
+        "php": "^8.1.6",
+        "ext-gd": "*",
+        "barryvdh/laravel-dompdf": "^2.0.0",
+        "doctrine/dbal": "^3.4.0",
+        "fideloper/proxy": "^4.4.2",
+        "laravel/framework": "^8.83.23",
+        "laravel/tinker": "^2.7.2",
+        "laravel/ui": "^3.4.6",
+        "maatwebsite/excel": "^3.1.40",
+        "phpoffice/phpspreadsheet": "^1.24.1"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.6.7",
-        "facade/ignition": "^2.17.5",
+        "barryvdh/laravel-debugbar": "^3.7.0",
+        "facade/ignition": "^2.17.6",
         "fzaninotto/faker": "^1.9.2",
         "mockery/mockery": "^1.5.0",
         "nunomaduro/collision": "^5.11.0",
-        "phpunit/phpunit": "^9.5.18"
+        "phpunit/phpunit": "^9.5.21"
     },
     "config": {
         "optimize-autoloader": true,

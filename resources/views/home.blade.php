@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
     <link rel="icon" href="{{asset('/img/logo.png')}}">
 
     <title>{{config('app.name')}} | {{config('app.schoolAlias')}} - All Current Exams</title>
